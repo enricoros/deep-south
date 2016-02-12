@@ -19,8 +19,12 @@ var G = {
             return;
         }
         // prepare S
+        S.firstCharacter = undefined;
         S.lines = G.rows.slice(0);
         S.$listRoot.empty();
+        // prepare UI
+        $('#info-others').text('');
+        $('#info-speaker').text('');
         // launch Generator
         G.generator();
     }
@@ -29,8 +33,7 @@ var G = {
 var S = {
     $listScroll: $('#list-scroll'),
     $listRoot: $('#deep-chat'),
-    $lastLine: undefined,
-    alignStart: true,
+    firstCharacter: undefined,
     lastTimeout: false,
     lines: undefined,
 
@@ -86,6 +89,7 @@ var S = {
                 '</div>'
             );
         }
+        S.$listRoot.find('.app-typing').remove();
         S.scrollDown();
     },
 
@@ -111,7 +115,7 @@ function generate_totalRandom() {
     var character = G.characters.randomElement();
     var line = S.lines.randomElement()['Line'];
 
-    S.addLine(character, line, Math.random() > 0.3);
+    S.addLine(character, line, Math.random() > 0.5);
 
     G.generator.lastTimeout = setTimeout(G.generator, 2000)
 }
@@ -130,6 +134,7 @@ function countWords(str) {
 function generate_stupid() {
     if (!S.firstCharacter) {
         S.firstCharacter = G.characters.randomElement();
+        $('#info-others').text('Friends');
         $('#info-speaker').text(S.firstCharacter);
     }
 
@@ -138,28 +143,34 @@ function generate_stupid() {
     var alignEnd = character == S.firstCharacter;
 
     // lines: use an appropriate line, but sometimes just throw in a random one
-    var line = S.lines.randomElement()['Line'];
-    while (countWords(line) > 30)
-        line = S.lines.randomElement()['Line'];
+    var lineText;
+    var lineWordCount;
+    do {
+        var line = S.lines.randomElement();
+        lineText = line['Line'];
+        lineWordCount = countWords(lineText);
+        var isShortEnough = lineWordCount < 40;
+        var isSameCharacter = line['Character'].toLowerCase().indexOf(character) !== -1;
+    } while (!isShortEnough || !isSameCharacter);
 
     // delay for reading or race conditions (random)
     var delay = 1000 * (Math.random() + Math.random());
-    var delayForReading = 200 + 1000 * 0.2 * (countWords(line) + 1);
+    var delayForReading = 200 + 1000 * 0.2 * (lineWordCount + 1);
     if (character == S.lastCharacter || chance(40))
         delay = delayForReading;
     S.lastCharacter = character;
 
     // timeout
-    if (chance(50)) {
+    if (chance(40)) {
         // give time for reading
-        S.addLine(character, line, !alignEnd);
+        S.addLine(character, lineText, !alignEnd);
         G.generator.lastTimeout = setTimeout(G.generator, delay);
     } else {
         // give time for writing
         S.addTyping(character, !alignEnd);
         G.generator.lastTimeout = setTimeout(function () {
             S.removeTyping();
-            S.addLine(character, line, !alignEnd);
+            S.addLine(character, lineText, !alignEnd);
             G.generator();
         }, delay)
     }
