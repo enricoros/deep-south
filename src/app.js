@@ -33,12 +33,24 @@ var S = {
     alignStart: true,
     lastTimeout: false,
     lines: undefined,
-    interval: 3000,
+    interval: 2000,
 
     addLine: function (character, line, alignStart) {
         var theName = '@' + character;
         var theImg = G.baseUrl + '/images/' + character + '.png';
         if (alignStart) {
+            S.$lastLine = $(
+                '<div class="app-line mdl-grid">' +
+                '  <div class="app-line-pic mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
+                '    <img class="app-image" src="' + theImg + '">' +
+                '  </div>' +
+                '  <div class="app-line-text mdl-cell mdl-cell--6-col mdl-cell--middle">' +
+                '    <div class="app-character-name">' + theName + '</div>' +
+                '    <div class="app-character-text">' + line + '</div>' +
+                '  </div>' +
+                '</div>'
+            );
+        } else {
             S.$lastLine = $(
                 '<div class="app-line mdl-grid">' +
                 '  <div class="app-line-pic mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
@@ -72,7 +84,7 @@ function generate_totalRandom() {
     var character = G.characters.randomElement();
     var line = S.lines.randomElement()['Line'];
 
-    S.addLine(character, line, true);
+    S.addLine(character, line, Math.random() > 0.3);
 
     G.generator.lastTimeout = setTimeout(G.generator, S.interval)
 }

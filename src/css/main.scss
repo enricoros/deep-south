@@ -61,8 +61,13 @@ html>body {
     }
   }
   .app-line-text {
+    /*box-shadow: 0 1px 8px 1px #eee;
+    background-color: #fefefe;
+    padding: 12px 20px 6px 20px;*/
+
     .app-character-name {
       color: $chat-names-color;
+      //margin-left: -2px;
       margin-top: -4px;
       margin-bottom: 4px;
     }
