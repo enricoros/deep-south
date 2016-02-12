@@ -57,21 +57,55 @@ html>body {
   }
 }
 
-#info-author {
-  position: absolute;
-  right: 1em;
-  bottom: 1em;
+.app-faction-text {
   font-size: 20px;
   font-weight: 400;
   text-transform: capitalize;
 }
 
+#info-speaker {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+}
+
+#info-others {
+  position: absolute;
+  left: 1em;
+  bottom: 1em;
+}
+
 .app-line {
   .app-line-pic {
-    > img {
-      height: 100px;
+    .app-image {
+      height: 128px;
+      width: 128px;
+      background: no-repeat center;
+      //background-size: 100% 100%;
       -webkit-filter: drop-shadow(1px 2px 8px #AAA);
       filter: drop-shadow(1px 2px 8px #AAA);
+    }
+    /* replacing <img>'s with css for single downloads */
+    .app-image.character-butters {
+      background-image: url('{{ "/images/butters.png" | prepend: site.baseurl }}');
+    }
+    .app-image.character-cartman {
+      background-image: url('{{ "/images/cartman.png" | prepend: site.baseurl }}');
+    }
+    .app-image.character-garrison {
+      background-image: url('{{ "/images/garrison.png" | prepend: site.baseurl }}');
+    }
+    .app-image.character-kenny {
+      background-image: url('{{ "/images/kenny.png" | prepend: site.baseurl }}');
+    }
+    .app-image.character-kyle {
+      background-image: url('{{ "/images/kyle.png" | prepend: site.baseurl }}');
+    }
+    .app-image.character-randy {
+      background-image: url('{{ "/images/randy.png" | prepend: site.baseurl }}');
+    }
+    .app-image.character-stan {
+      background-image: url('{{ "/images/stan.png" | prepend: site.baseurl }}');
     }
   }
   .app-line-text {
