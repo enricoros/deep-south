@@ -89,7 +89,6 @@ var S = {
                 '</div>'
             );
         }
-        S.$listRoot.find('.app-typing').remove();
         S.scrollDown();
     },
 
@@ -152,6 +151,14 @@ function generate_stupid() {
         var isShortEnough = lineWordCount < 40;
         var isSameCharacter = line['Character'].toLowerCase().indexOf(character) !== -1;
     } while (!isShortEnough || !isSameCharacter);
+
+    // re-add some chaos back (lines by somebody else)
+    if (chance(40)) {
+        do {
+            lineText = S.lines.randomElement()['Line'];
+            lineWordCount = countWords(lineText);
+        } while (lineWordCount > 35);
+    }
 
     // delay for reading or race conditions (random)
     var delay = 1000 * (Math.random() + Math.random());
