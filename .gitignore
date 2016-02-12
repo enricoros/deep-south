@@ -3,4 +3,5 @@ Gemfile.lock
 .sass_cache/
 _site/
 bin/
+src/.idea/
 vendor/
