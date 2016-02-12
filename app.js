@@ -1,4 +1,5 @@
 var G = {
+    baseUrl: '',
     characters: ['butters', 'cartman', 'garrison', 'kenny', 'kyle', 'randy', 'stan'],
     interval: 1000
 };
@@ -17,7 +18,7 @@ function newLine() {
     // add the snippet
     var $characterLine = $(
         '<div>' +
-        '  <img src="/images/' + character + '.png" height="100" alt="">' +
+        '  <img src="' + G.baseUrl + '/images/' + character + '.png" height="100" alt="">' +
         '  <span>' + character + ': ' + S.lines.randomElement()['Line'] +   '</span>' +
         '</div>'
     );
@@ -34,10 +35,4 @@ function newLine() {
     // repeat
     setTimeout(newLine, G.interval)
 }
-
-d3.csv("/all-seasons.csv", function (csv) {
-    S.lines = csv;
-});
-
-setTimeout(newLine, G.interval);
 
