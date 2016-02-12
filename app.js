@@ -64,17 +64,44 @@ var S = {
             );
         }
         S.$listRoot.append($line);
+        S.scrollDown();
+    },
 
-        // scroll down
-        if (G.autoScroll) {
-            var scrollTop = S.$listScroll[0].scrollHeight - S.$listScroll.height() /* - padding_top - padding_bottom*/;
-            if (G.autoScrollAnimate)
-                S.$listScroll.animate({scrollTop: scrollTop}, 300, 'easeOutCubic');
-            else
-                S.$listScroll.scrollTop(scrollTop);
+    addTyping: function(character, alignStart) {
+        var theName = '@' + character;
+        if (alignStart) {
+            S.$listRoot.append(
+                '<div class="app-line app-typing mdl-grid">' +
+                '  <div class="app-line-text mdl-cell mdl-cell--12-col mdl-cell--middle">' +
+                '    <div class="app-character-name">' + theName + ' is typing ...</div>' +
+                '  </div>' +
+                '</div>'
+            );
+        } else {
+            S.$listRoot.append(
+                '<div class="app-line app-typing mdl-grid">' +
+                '  <div class="app-line-text mdl-cell mdl-cell--12-col mdl-cell--middle mdl-typography--text-right">' +
+                '    <div class="app-character-name">' + theName + ' is typing ...</div>' +
+                '  </div>' +
+                '</div>'
+            );
         }
-    }
+        S.scrollDown();
+    },
 
+    removeTyping: function() {
+        S.$listRoot.find('.app-typing').remove();
+    },
+
+    scrollDown: function () {
+        if (!G.autoScroll)
+            return;
+        var scrollTop = S.$listScroll[0].scrollHeight - S.$listScroll.height() /* - padding_top - padding_bottom*/;
+        if (G.autoScrollAnimate)
+            S.$listScroll.animate({scrollTop: scrollTop}, 300, 'easeOutCubic');
+        else
+            S.$listScroll.scrollTop(scrollTop);
+    }
 };
 
 /**
@@ -112,6 +139,8 @@ function generate_stupid() {
 
     // lines: use an appropriate line, but sometimes just throw in a random one
     var line = S.lines.randomElement()['Line'];
+    while (countWords(line) > 30)
+        line = S.lines.randomElement()['Line'];
 
     // delay for reading or race conditions (random)
     var delay = 1000 * (Math.random() + Math.random());
@@ -127,8 +156,9 @@ function generate_stupid() {
         G.generator.lastTimeout = setTimeout(G.generator, delay);
     } else {
         // give time for writing
-
+        S.addTyping(character, !alignEnd);
         G.generator.lastTimeout = setTimeout(function () {
+            S.removeTyping();
             S.addLine(character, line, !alignEnd);
             G.generator();
         }, delay)

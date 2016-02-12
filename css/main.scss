@@ -57,12 +57,6 @@ html>body {
   }
 }
 
-.app-faction-text {
-  font-size: 20px;
-  font-weight: 400;
-  text-transform: capitalize;
-}
-
 #info-speaker {
   position: absolute;
   right: 1em;
@@ -75,6 +69,12 @@ html>body {
   bottom: 1em;
 }
 
+.app-faction-text {
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
 .app-line {
   .app-line-pic {
     .app-image {
@@ -82,8 +82,8 @@ html>body {
       width: 128px;
       background: no-repeat center;
       //background-size: 100% 100%;
-      -webkit-filter: drop-shadow(1px 2px 8px #AAA);
-      filter: drop-shadow(1px 2px 8px #AAA);
+      -webkit-filter: drop-shadow(1px 2px 8px #DDD);
+      filter: drop-shadow(1px 2px 8px #DDD);
     }
     /* replacing <img>'s with css for single downloads */
     .app-image.character-butters {
@@ -140,4 +140,6 @@ html>body {
     -ms-transform: rotate(17deg);
     transform: rotate(17deg);*/
   }
+}
+.app-line.app-typing {
 }
