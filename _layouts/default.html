@@ -5,15 +5,19 @@
 
   <body>
 
-    {% include header.html %}
+    <div class="app-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
 
-    <div class="page-content">
-      <div class="wrapper">
+      {% include header.html %}
+
+      <main class="app-main mdl-layout__content">
+
         {{ content }}
-      </div>
-    </div>
 
-    {% include footer.html %}
+      </main>
+
+      {% include footer.html %}
+
+    </div>
 
   </body>
 
