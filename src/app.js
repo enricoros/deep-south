@@ -3,6 +3,11 @@ var G = {
     autoScroll: true,
     autoScrollAnimate: true,
     characters: ['butters', 'cartman', 'garrison', 'kenny', 'kyle', 'randy', 'stan'],
+    typical: [ /* cartman */ 'guys', 'mom', 'jew', 'seriously', 'sweet', 'balls', 'bitch', 'poor', 'cool', 'aw man',
+        'goddamnit', 'fuck', 'awesome', /* stan */ 'dude', 'dad', 'yeah', 'killed', 'best friend', 'dont know',
+        'dont wanna', /* kyle */ 'ike', 'brother', 'fat', 'giant douche', 'hell', 'bastard', 'bastards', 'stupid', /* kenny */
+        'woohoo', 'yeah', 'hey guys', 'huh', 'stick', 'freakin', 'nuh', 'vagina', 'okay', 'yep', 'nope',
+        /* butters */ 'jeez', 'eric', 'oh boy', 'grounded', 'chaos', 'heck', 'sure', 'butt', /* randy */ 'porn' ],
     rows: undefined,
     generator: undefined,
 
@@ -30,6 +35,13 @@ var G = {
     }
 };
 
+function addHighlight(src, highlight, className) {
+    var regex = new RegExp("\\b" + highlight + "\\b", "gi");
+    return src.replace(regex, function (matched) {
+        return "<span class=\"" + className + "\">" + matched + "</span>";
+    });
+}
+
 var S = {
     $listScroll: $('#list-scroll'),
     $listRoot: $('#deep-chat'),
@@ -39,12 +51,18 @@ var S = {
 
     addLine: function (character, line, alignStart) {
         var theName = '@' + character;
-        var theImg = G.baseUrl + '/images/' + character + '.png';
-        var $line;
+        // highlight characters' names
+        G.characters.forEach(function (word) {
+            line = addHighlight(line, word, 'hl-character-name');
+        });
+        // highlight typical words
+        G.typical.forEach(function (word) {
+            line = addHighlight(line, word, 'hl-typical');
+        });
         if (alignStart) {
-            $line = $(
+            S.$listRoot.append(
                 '<div class="app-line mdl-grid">' +
-                '  <div class="app-line-pic is-align-start mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
+                '  <div class="app-line-pic is-align-start mdl-cell mdl-cell--2-col">' +
                 '    <div class="app-image character-' + character + '"></div>' +
                 '  </div>' +
                 '  <div class="app-line-text mdl-cell mdl-cell--6-col mdl-cell--middle">' +
@@ -54,19 +72,19 @@ var S = {
                 '</div>'
             );
         } else {
-            $line = $(
+            S.$listRoot.append(
                 '<div class="app-line mdl-grid">' +
                 '  <div class="mdl-cell mdl-cell--4-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>' +
                 '  <div class="app-line-text mdl-cell mdl-cell--6-col mdl-cell--middle mdl-typography--text-right">' +
+                '    <div class="app-character-name">' + theName + '</div>' +
                 '    <div class="app-character-text">' + line + '</div>' +
                 '  </div>' +
-                '  <div class="app-line-pic is-align-end mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
+                '  <div class="app-line-pic is-align-end mdl-cell mdl-cell--2-col">' +
                 '    <div class="app-image character-' + character + '"></div>' +
                 '  </div>' +
                 '</div>'
             );
         }
-        S.$listRoot.append($line);
         S.scrollDown();
     },
 
@@ -76,7 +94,7 @@ var S = {
             S.$listRoot.append(
                 '<div class="app-line app-typing mdl-grid">' +
                 '  <div class="app-line-text mdl-cell mdl-cell--12-col mdl-cell--middle">' +
-                '    <div class="app-character-name">' + theName + ' is typing ...</div>' +
+                '    <div class="app-character-name">&nbsp; &nbsp; ' + theName + ' is typing ...</div>' +
                 '  </div>' +
                 '</div>'
             );
@@ -84,7 +102,7 @@ var S = {
             S.$listRoot.append(
                 '<div class="app-line app-typing mdl-grid">' +
                 '  <div class="app-line-text mdl-cell mdl-cell--12-col mdl-cell--middle mdl-typography--text-right">' +
-                '    <div class="app-character-name">' + theName + ' is typing ...</div>' +
+                '    <div class="app-character-name">' + theName + ' is typing ... &nbsp; &nbsp;</div>' +
                 '  </div>' +
                 '</div>'
             );
@@ -122,15 +140,8 @@ function generate_totalRandom() {
 /**
  * Cooler generator
  */
-function chance(valuePct) {
-    return Math.random() <= (valuePct / 100);
-}
-
-function countWords(str) {
-    return str.split(/\s+/).length;
-}
-
 function generate_stupid() {
+    // choose one of the characters to be on the right side, like group chat APPs
     if (!S.firstCharacter) {
         S.firstCharacter = G.characters.randomElement();
         $('#info-others').text('Friends');
@@ -181,4 +192,12 @@ function generate_stupid() {
             G.generator();
         }, delay)
     }
+}
+
+function chance(valuePct) {
+    return Math.random() <= (valuePct / 100);
+}
+
+function countWords(str) {
+    return str.split(/\s+/).length;
 }
