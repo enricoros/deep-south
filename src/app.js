@@ -33,7 +33,6 @@ var S = {
     alignStart: true,
     lastTimeout: false,
     lines: undefined,
-    interval: 2000,
 
     addLine: function (character, line, alignStart) {
         var theName = '@' + character;
@@ -53,12 +52,12 @@ var S = {
         } else {
             S.$lastLine = $(
                 '<div class="app-line mdl-grid">' +
+                '  <div class="mdl-cell mdl-cell--4-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>' +
+                '  <div class="app-line-text mdl-cell mdl-cell--6-col mdl-cell--middle mdl-typography--text-right">' +
+                '    <div class="app-character-text">' + line + '</div>' +
+                '  </div>' +
                 '  <div class="app-line-pic mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
                 '    <img class="app-image" src="' + theImg + '">' +
-                '  </div>' +
-                '  <div class="app-line-text mdl-cell mdl-cell--6-col mdl-cell--middle">' +
-                '    <div class="app-character-name">' + theName + '</div>' +
-                '    <div class="app-character-text">' + line + '</div>' +
                 '  </div>' +
                 '</div>'
             );
@@ -86,6 +85,40 @@ function generate_totalRandom() {
 
     S.addLine(character, line, Math.random() > 0.3);
 
-    G.generator.lastTimeout = setTimeout(G.generator, S.interval)
+    G.generator.lastTimeout = setTimeout(G.generator, 2000)
 }
 
+/**
+ * Cooler generator
+ */
+function chance(valuePct) {
+    return Math.random() <= (valuePct / 100);
+}
+
+function countWords(str) {
+    return str.split(/\s+/).length;
+}
+
+function generate_stupid() {
+    if (!S.firstCharacter)
+        S.firstCharacter = G.characters.randomElement();
+
+    var character = chance(35) ? S.firstCharacter : G.characters.randomElement();
+
+    // lines: use an appropriate line, but sometimes just throw in a random one
+    var line = S.lines.randomElement()['Line'];
+
+
+    // add the line
+    var alignEnd = character == S.firstCharacter;
+    S.addLine(character, line, !alignEnd);
+
+    // delay for reading or race conditions (random)
+    var delay = 1000 * (Math.random() + Math.random());
+    var delayForReading = 200 + 1000 * 0.2 * (countWords(line) + 1);
+    if (character == S.lastCharacter || chance(40))
+        delay = delayForReading;
+    S.lastCharacter = character;
+
+    G.generator.lastTimeout = setTimeout(G.generator, delay)
+}
