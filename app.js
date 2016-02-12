@@ -27,7 +27,7 @@ var G = {
 };
 
 var S = {
-    $listScroll: $('.app-content'),
+    $listScroll: $('#list-scroll'),
     $listRoot: $('#deep-chat'),
     $lastLine: undefined,
     alignStart: true,
@@ -37,10 +37,11 @@ var S = {
     addLine: function (character, line, alignStart) {
         var theName = '@' + character;
         var theImg = G.baseUrl + '/images/' + character + '.png';
+        var $line;
         if (alignStart) {
-            S.$lastLine = $(
+            $line = $(
                 '<div class="app-line mdl-grid">' +
-                '  <div class="app-line-pic mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
+                '  <div class="app-line-pic is-align-start mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
                 '    <img class="app-image" src="' + theImg + '">' +
                 '  </div>' +
                 '  <div class="app-line-text mdl-cell mdl-cell--6-col mdl-cell--middle">' +
@@ -50,19 +51,19 @@ var S = {
                 '</div>'
             );
         } else {
-            S.$lastLine = $(
+            $line = $(
                 '<div class="app-line mdl-grid">' +
                 '  <div class="mdl-cell mdl-cell--4-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>' +
                 '  <div class="app-line-text mdl-cell mdl-cell--6-col mdl-cell--middle mdl-typography--text-right">' +
                 '    <div class="app-character-text">' + line + '</div>' +
                 '  </div>' +
-                '  <div class="app-line-pic mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
+                '  <div class="app-line-pic is-align-end mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
                 '    <img class="app-image" src="' + theImg + '">' +
                 '  </div>' +
                 '</div>'
             );
         }
-        S.$listRoot.append(S.$lastLine);
+        S.$listRoot.append($line);
 
         // scroll down
         if (G.autoScroll) {
@@ -100,18 +101,17 @@ function countWords(str) {
 }
 
 function generate_stupid() {
-    if (!S.firstCharacter)
+    if (!S.firstCharacter) {
         S.firstCharacter = G.characters.randomElement();
+        $('#info-author').text(S.firstCharacter);
+    }
 
+    // character: use the first, or a random character
     var character = chance(35) ? S.firstCharacter : G.characters.randomElement();
+    var alignEnd = character == S.firstCharacter;
 
     // lines: use an appropriate line, but sometimes just throw in a random one
     var line = S.lines.randomElement()['Line'];
-
-
-    // add the line
-    var alignEnd = character == S.firstCharacter;
-    S.addLine(character, line, !alignEnd);
 
     // delay for reading or race conditions (random)
     var delay = 1000 * (Math.random() + Math.random());
@@ -120,5 +120,16 @@ function generate_stupid() {
         delay = delayForReading;
     S.lastCharacter = character;
 
-    G.generator.lastTimeout = setTimeout(G.generator, delay)
+    // timeout
+    if (chance(50)) {
+        // give time for reading
+        S.addLine(character, line, !alignEnd);
+        G.generator.lastTimeout = setTimeout(G.generator, delay);
+    } else {
+        // give time for writing
+        G.generator.lastTimeout = setTimeout(function () {
+            S.addLine(character, line, !alignEnd);
+            G.generator();
+        }, delay)
+    }
 }
