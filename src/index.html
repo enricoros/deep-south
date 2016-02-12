@@ -6,9 +6,7 @@ layout: default
   <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
   <div class="app-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
 
-    <h1 class="page-heading">Posts</h1>
-
-    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+    <h1 class="page-heading">Hey dude,</h1>
 
     <div id="deep-chat">
       here it begins...
@@ -22,3 +20,15 @@ layout: default
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.14/d3.js"></script>
 <script src="polyfills.js"></script>
 <script src="app.js"></script>
+
+<script>
+  var startTime = Date.now();
+  G.baseUrl = '{{ "" | prepend: site.baseurl }}';
+
+  d3.csv(G.baseUrl + "/all-seasons.csv", function (csv) {
+    console.log('Load time: ' + (Date.now() - startTime) + ' ms');
+    S.lines = csv;
+
+    setTimeout(newLine, G.interval);
+  });
+</script>
