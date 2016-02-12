@@ -3,13 +3,13 @@ layout: default
 ---
 
 <div class="app-container mdl-grid">
-  <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
-  <div class="app-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+  <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
+  <div class="app-content mdl-color--white mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
 
-    <h1 class="page-heading">Hey dude,</h1>
+    <h3></h3>
 
     <div id="deep-chat">
-      here it begins...
+      <!-- dynamic lines here -->
     </div>
 
   </div>
@@ -22,13 +22,9 @@ layout: default
 <script src="app.js"></script>
 
 <script>
-  var startTime = Date.now();
   G.baseUrl = '{{ "" | prepend: site.baseurl }}';
-
-  d3.csv(G.baseUrl + "/all-seasons.csv", function (csv) {
-    console.log('Load time: ' + (Date.now() - startTime) + ' ms');
-    S.lines = csv;
-
-    setTimeout(newLine, G.interval);
+  d3.csv(G.baseUrl + "/all-seasons.csv", function (rows) {
+    G.rows = rows;
+    G.changeGenerator(generate_totalRandom);
   });
 </script>

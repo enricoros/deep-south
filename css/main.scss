@@ -4,53 +4,17 @@
 @charset "utf-8";
 
 
-
 // Our variables
-$base-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$base-font-size:   16px;
-$base-font-weight: 400;
-$small-font-size:  $base-font-size * 0.875;
-$base-line-height: 1.5;
-
-$spacing-unit:     30px;
-
-$text-color:       #111;
-$background-color: #fdfdfd;
-$brand-color:      #2a7ae2;
-
-$grey-color:       #828282;
-$grey-color-light: lighten($grey-color, 40%);
-$grey-color-dark:  darken($grey-color, 25%);
-
-// Width of the content area
-$content-width:    800px;
-
-$on-palm:          600px;
-$on-laptop:        800px;
-
-
-
-// Use media queries like this:
-// @include media-query($on-palm) {
-//     .wrapper {
-//         padding-right: $spacing-unit / 2;
-//         padding-left: $spacing-unit / 2;
-//     }
-// }
-@mixin media-query($device) {
-    @media screen and (max-width: $device) {
-        @content;
-    }
-}
-
-
+$chat-lines-color: #333;
+$chat-names-color: #888;
 
 // Import partials from `sass_dir` (defaults to `_sass`)
-@import
-        "base",
-        "layout",
-        "syntax-highlighting"
-;
+@import "syntax-highlighting";
+
+html>body {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
+  background-color: #fafafa
+}
 
 .app-main {
   //margin-top: -35vh;
@@ -69,35 +33,57 @@ $on-laptop:        800px;
 
 .app-content {
   border-radius: 2px;
-  padding: 80px 56px;
+  padding: 0; /* important for the scroll-to-bottom functionality */
   margin-bottom: 80px;
 }
 
 .app-layout.is-small-screen .app-content {
-  padding: 40px 28px;
+  padding: 0; /* important for the scroll-to-bottom functionality */
 }
 
 .app-content h3 {
   margin-top: 48px;
 }
 
-.app-footer {
-  padding-left: 40px;
-}
-
-.app-footer .mdl-mini-footer--link-list a {
-  font-size: 13px;
-}
-
-.app-div-info {
-  border-radius: 4px;
-  padding: 4px;
-  color: $grey-color;
-}
-
-
+// APP
 .app-content {
   height: 400px;
   //background: aqua;
   overflow: auto;
+}
+
+.app-line {
+  .app-line-pic {
+    > img {
+      height: 100px;
+      -webkit-filter: drop-shadow(1px 2px 8px #AAA);
+      filter: drop-shadow(1px 2px 8px #AAA);
+    }
+  }
+  .app-line-text {
+    .app-character-name {
+      color: $chat-names-color;
+      margin-top: -4px;
+      margin-bottom: 4px;
+    }
+    .app-character-text {
+      color: $chat-lines-color;
+      font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.58;
+      letter-spacing: -.003em;
+    }
+  }
+  .app-line-pic.is-align-start {
+    -webkit-transform: rotate(17deg);
+    -ms-transform: rotate(17deg);
+    transform: rotate(17deg);
+  }
+  .app-line-pic.is-align-end {
+    -webkit-transform: rotate(-17deg);
+    -ms-transform: rotate(-17deg);
+    transform: rotate(-17deg);
+  }
 }
