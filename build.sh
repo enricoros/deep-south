@@ -1,4 +1,7 @@
 #!/bin/sh
 bundler install --binstubs=bin --path=vendor --quiet
-./bin/jekyll build -s src -d _site
 
+KIND="$1"
+[ "$KIND" = "" ] && KIND="build"
+
+./bin/jekyll $KIND -s src -d _site

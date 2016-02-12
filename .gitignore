@@ -1,5 +1,6 @@
 Gemfile.lock
-bin
-vendor
-_site
-
+.bundle/
+.sass_cache/
+_site/
+bin/
+vendor/

@@ -51,3 +51,46 @@ $on-laptop:        800px;
         "layout",
         "syntax-highlighting"
 ;
+
+.app-main {
+  //margin-top: -35vh;
+  flex-shrink: 0;
+}
+
+.app-header .mdl-layout__header-row {
+  padding-left: 40px;
+}
+
+.app-container {
+  max-width: 1600px;
+  width: calc(100% - 16px);
+  margin: 0 auto;
+}
+
+.app-content {
+  border-radius: 2px;
+  padding: 80px 56px;
+  margin-bottom: 80px;
+}
+
+.app-layout.is-small-screen .app-content {
+  padding: 40px 28px;
+}
+
+.app-content h3 {
+  margin-top: 48px;
+}
+
+.app-footer {
+  padding-left: 40px;
+}
+
+.app-footer .mdl-mini-footer--link-list a {
+  font-size: 13px;
+}
+
+.app-div-info {
+  border-radius: 4px;
+  padding: 4px;
+  color: $grey-color;
+}
