@@ -94,3 +94,10 @@ $on-laptop:        800px;
   padding: 4px;
   color: $grey-color;
 }
+
+
+.app-content {
+  height: 400px;
+  //background: aqua;
+  overflow: auto;
+}
