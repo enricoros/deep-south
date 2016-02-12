@@ -42,7 +42,7 @@ var S = {
             $line = $(
                 '<div class="app-line mdl-grid">' +
                 '  <div class="app-line-pic is-align-start mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
-                '    <img class="app-image" src="' + theImg + '">' +
+                '    <div class="app-image character-' + character + '"></div>' +
                 '  </div>' +
                 '  <div class="app-line-text mdl-cell mdl-cell--6-col mdl-cell--middle">' +
                 '    <div class="app-character-name">' + theName + '</div>' +
@@ -58,7 +58,7 @@ var S = {
                 '    <div class="app-character-text">' + line + '</div>' +
                 '  </div>' +
                 '  <div class="app-line-pic is-align-end mdl-cell mdl-cell--2-col mdl-typography--text-center">' +
-                '    <img class="app-image" src="' + theImg + '">' +
+                '    <div class="app-image character-' + character + '"></div>' +
                 '  </div>' +
                 '</div>'
             );
@@ -103,7 +103,7 @@ function countWords(str) {
 function generate_stupid() {
     if (!S.firstCharacter) {
         S.firstCharacter = G.characters.randomElement();
-        $('#info-author').text(S.firstCharacter);
+        $('#info-speaker').text(S.firstCharacter);
     }
 
     // character: use the first, or a random character
@@ -127,6 +127,7 @@ function generate_stupid() {
         G.generator.lastTimeout = setTimeout(G.generator, delay);
     } else {
         // give time for writing
+
         G.generator.lastTimeout = setTimeout(function () {
             S.addLine(character, line, !alignEnd);
             G.generator();

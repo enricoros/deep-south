@@ -1,7 +1,7 @@
 .bundle/
+.idea/
 _site/
 bin/
-src/.idea/
 vendor/
 Gemfile.lock
 .jekyll-metadata/
