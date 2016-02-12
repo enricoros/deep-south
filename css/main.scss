@@ -69,6 +69,19 @@ html>body {
   bottom: 1em;
 }
 
+.app-header {
+  a {
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: normal;
+    text-decoration: none;
+  }
+  > div {
+    background: #424242;
+  }
+}
+
 .app-faction-text {
   font-size: 20px;
   font-weight: 400;
