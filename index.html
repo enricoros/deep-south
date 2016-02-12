@@ -25,6 +25,6 @@ layout: default
   G.baseUrl = '{{ "" | prepend: site.baseurl }}';
   d3.csv(G.baseUrl + "/all-seasons.csv", function (rows) {
     G.rows = rows;
-    G.changeGenerator(generate_totalRandom);
+    G.changeGenerator(generate_stupid);
   });
 </script>
