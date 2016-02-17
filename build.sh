@@ -1,5 +1,5 @@
 #!/bin/sh
-bundler install --binstubs=bin --path=vendor --quiet
+bundle install --binstubs=bin --path=vendor --quiet
 
 KIND="$1"
 [ "$KIND" = "" ] && KIND="build"

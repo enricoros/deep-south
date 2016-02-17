@@ -125,6 +125,34 @@ var S = {
     }
 };
 
+
+function AiBase() {
+
+}
+AiBase.prototype = {
+
+    setup: function () {
+
+    },
+
+    generate: function() {
+
+    }
+
+};
+
+/* NOTES *
+
+Find content on VentureBeat
+ https://github.com/mikehoren/iceflow-server
+ https://github.com/samshadwell/TrumpScript
+
+jS Lib for learning: http://synaptic.juancazala.com/#/
+
+*/
+
+
+
 /**
  * Simple Easy generator
  */
