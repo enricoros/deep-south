@@ -1,5 +1,7 @@
 ## Deep South (Park)
-South Park conversation generator, ideally based on deep learning
+South Park conversation generator, ideally based on deep learning.
+
+Compared to Microsoft's Tay (@tayandyou) this is much safer and family friendlier. Although this was designed to be horrible, while Tay was designed to be chill. I think I've failed here :)
 
 DEMO: http://enricoros.github.io/deep-south
 
